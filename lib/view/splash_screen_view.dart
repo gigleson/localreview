@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:localreview/view/login_screen_view.dart';
 
 class SplashScreenView extends StatefulWidget {
   const SplashScreenView({super.key});
@@ -16,7 +17,7 @@ class _SplashScreenViewState extends State<SplashScreenView> {
     Timer(const Duration(seconds: 3), () {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => const Placeholder()),
+        MaterialPageRoute(builder: (context) => const LoginScreenView()),
       );
     });
   }
@@ -39,16 +40,12 @@ class _SplashScreenViewState extends State<SplashScreenView> {
               // Logo
               Image.asset(
                 'assets/images/logo.png',
-                width: 150, // Adjust size as needed
+                width: 150,
                 height: 150,
               ),
-              // const Icon(
-              //   Icons.location_pin,
-              //   color: Colors.white,
-              //   size: 100,
-              // ),
+
               const SizedBox(height: 20),
-              // App Name
+
               const Text(
                 'LocalReview',
                 style: TextStyle(
@@ -58,7 +55,7 @@ class _SplashScreenViewState extends State<SplashScreenView> {
                 ),
               ),
               const SizedBox(height: 40),
-              // Loading Indicator
+
               const CircularProgressIndicator(
                 color: Color.fromRGBO(215, 197, 197, 1),
               ),
