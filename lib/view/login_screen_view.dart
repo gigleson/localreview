@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:localreview/view/home_screen_view.dart';
 import 'package:localreview/view/signup_screen_view.dart';
 
 class LoginScreenView extends StatefulWidget {
@@ -20,7 +21,10 @@ class _LoginScreenViewState extends State<LoginScreenView> {
     if (_formKey.currentState!.validate()) {
       if (email == 'admin@gmail.com' && password == 'admin') {
         // Navigate to the Home Page
-  
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const HomeScreenView()),
+        );
       } else {
         // Show error snackbar
         ScaffoldMessenger.of(context).showSnackBar(
