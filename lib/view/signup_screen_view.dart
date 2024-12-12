@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:localreview/view/login_screen_view.dart';
 
 class SignupScreenView extends StatelessWidget {
   const SignupScreenView({Key? key}) : super(key: key);
@@ -8,7 +9,8 @@ class SignupScreenView extends StatelessWidget {
     final TextEditingController nameController = TextEditingController();
     final TextEditingController emailController = TextEditingController();
     final TextEditingController passwordController = TextEditingController();
-    final TextEditingController confirmPasswordController = TextEditingController();
+    final TextEditingController confirmPasswordController =
+        TextEditingController();
 
     return Scaffold(
       body: Container(
@@ -97,7 +99,8 @@ class SignupScreenView extends StatelessWidget {
                       final name = nameController.text.trim();
                       final email = emailController.text.trim();
                       final password = passwordController.text.trim();
-                      final confirmPassword = confirmPasswordController.text.trim();
+                      final confirmPassword =
+                          confirmPasswordController.text.trim();
 
                       if (name.isEmpty ||
                           email.isEmpty ||
@@ -151,6 +154,11 @@ class SignupScreenView extends StatelessWidget {
                       TextButton(
                         onPressed: () {
                           // Navigate to Login Screen
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const LoginScreenView()),
+                          );
                         },
                         child: const Text(
                           'Log In',

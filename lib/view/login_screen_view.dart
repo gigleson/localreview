@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:localreview/view/signup_screen_view.dart';
 
 
 class LoginScreenView extends StatelessWidget {
@@ -101,6 +102,11 @@ class LoginScreenView extends StatelessWidget {
                       TextButton(
                         onPressed: () {
                           // Navigate to Sign-Up Screen
+                                    Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const SignupScreenView()),
+                          );
                         },
                         child: const Text(
                           'Sign Up',
