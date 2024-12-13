@@ -68,7 +68,7 @@ class _LoginScreenViewState extends State<LoginScreenView> {
 
                     // Welcome Text
                     const Text(
-                      'Welcome Back!',
+                      'Hi There!',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 28,
@@ -154,7 +154,7 @@ class _LoginScreenViewState extends State<LoginScreenView> {
                       ),
                       child: const Text(
                         'Log In',
-                        style: TextStyle(fontSize: 18),
+                        style: TextStyle(fontSize: 18, color: Colors.black),
                       ),
                     ),
                     const SizedBox(height: 20),

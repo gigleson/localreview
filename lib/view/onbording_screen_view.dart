@@ -52,7 +52,7 @@ class _OnboardingScreenViewState extends State<OnboardingScreenView> {
                 children: [
                   // Upper Image Section
                   Expanded(
-                    flex: 5,
+                    flex: 6,
                     child: Image.asset(
                       item["image"]!,
                       fit: BoxFit.cover,
@@ -88,7 +88,7 @@ class _OnboardingScreenViewState extends State<OnboardingScreenView> {
                             textAlign: TextAlign.center,
                             style: const TextStyle(
                               fontSize: 16,
-                              color: Colors.grey,
+                              color: Color.fromARGB(255, 22, 22, 22),
                             ),
                           ),
                         ],
@@ -101,7 +101,7 @@ class _OnboardingScreenViewState extends State<OnboardingScreenView> {
           ),
           // Dots Indicator
           Positioned(
-            bottom: 100,
+            bottom: 120,
             left: 0,
             right: 0,
             child: Row(
@@ -120,7 +120,7 @@ class _OnboardingScreenViewState extends State<OnboardingScreenView> {
               ),
             ),
           ),
-          
+
           // Next or Get Started Button
           Positioned(
             bottom: 40,
@@ -153,7 +153,7 @@ class _OnboardingScreenViewState extends State<OnboardingScreenView> {
                 _currentIndex == _onboardingData.length - 1
                     ? 'Get Started'
                     : 'Next',
-                style: const TextStyle(fontSize: 18),
+                style: const TextStyle(fontSize: 18, color: Colors.black),
               ),
             ),
           ),
