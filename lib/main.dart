@@ -5,4 +5,4 @@ import 'package:localreview/app.dart';
 
 void main() {
   runApp(const App());
-}
+} 
