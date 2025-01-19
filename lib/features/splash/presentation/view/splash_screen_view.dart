@@ -1,7 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:localreview/view/onbording_screen_view.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:localreview/features/splash/presentation/view_model/splash_cubit.dart';
+
 
 class SplashScreenView extends StatefulWidget {
   const SplashScreenView({super.key});
@@ -14,12 +16,8 @@ class _SplashScreenViewState extends State<SplashScreenView> {
   @override
   void initState() {
     super.initState();
-    Timer(const Duration(seconds: 3), () {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const OnboardingScreenView()),
-      );
-    });
+
+    context.read<SplashCubit>().init(context);
   }
 
   @override

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:localreview/core/themes/mythemes.dart';
-import 'package:localreview/view/login_screen_view.dart';
+import 'package:localreview/features/auth/presentation/view/login/login_screen_view.dart';
+import 'package:localreview/features/auth/presentation/view_model/signup/register_bloc.dart';
 
 class SignupScreenView extends StatefulWidget {
   const SignupScreenView({super.key});
@@ -15,7 +17,7 @@ class _SignupScreenViewState extends State<SignupScreenView> {
   // Controllers for input fields
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _phoneController = TextEditingController();
+  // final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _confirmPasswordController =
       TextEditingController();
@@ -145,37 +147,37 @@ class _SignupScreenViewState extends State<SignupScreenView> {
                             ),
                           ),
                           // Phone Number Field
-                          Padding(
-                            padding: const EdgeInsets.only(top: 16),
-                            child: TextFormField(
-                              controller: _phoneController,
-                              keyboardType: TextInputType.phone,
-                              decoration: InputDecoration(
-                                labelText: 'Phone Number',
-                                hintText: 'Enter your phone number...',
-                                enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: AppTheme.lineGray,
-                                    width: 2,
-                                  ),
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                filled: true,
-                                fillColor: AppTheme.secondaryBackground,
-                                contentPadding:
-                                    const EdgeInsets.fromLTRB(16, 24, 0, 24),
-                              ),
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'Phone number is required';
-                                } else if (!RegExp(r'^[0-9]{10}$')
-                                    .hasMatch(value)) {
-                                  return 'Enter a valid phone number';
-                                }
-                                return null;
-                              },
-                            ),
-                          ),
+                          // Padding(
+                          //   padding: const EdgeInsets.only(top: 16),
+                          //   child: TextFormField(
+                          //     controller: _phoneController,
+                          //     keyboardType: TextInputType.phone,
+                          //     decoration: InputDecoration(
+                          //       labelText: 'Phone Number',
+                          //       hintText: 'Enter your phone number...',
+                          //       enabledBorder: OutlineInputBorder(
+                          //         borderSide: BorderSide(
+                          //           color: AppTheme.lineGray,
+                          //           width: 2,
+                          //         ),
+                          //         borderRadius: BorderRadius.circular(8),
+                          //       ),
+                          //       filled: true,
+                          //       fillColor: AppTheme.secondaryBackground,
+                          //       contentPadding:
+                          //           const EdgeInsets.fromLTRB(16, 24, 0, 24),
+                          //     ),
+                          //     validator: (value) {
+                          //       if (value == null || value.isEmpty) {
+                          //         return 'Phone number is required';
+                          //       } else if (!RegExp(r'^[0-9]{10}$')
+                          //           .hasMatch(value)) {
+                          //         return 'Enter a valid phone number';
+                          //       }
+                          //       return null;
+                          //     },
+                          //   ),
+                          // ),
                           // Password Field
                           Padding(
                             padding: const EdgeInsets.only(top: 16),
@@ -284,7 +286,19 @@ class _SignupScreenViewState extends State<SignupScreenView> {
                                 ElevatedButton(
                                   onPressed: () {
                                     if (_formKey.currentState!.validate()) {
-                                      // Perform Sign-In Logic
+                                      context.read<RegisterBloc>().add(
+                                            RegisterStudent(
+                                                context: context,
+                                                email: _emailController.text,
+                                                userName: _nameController.text,
+                                                password:
+                                                    _passwordController.text,
+                                                createdAt:
+                                                    DateTime.now().toString(),
+                                                lastLogin:
+                                                    DateTime.now().toString(),
+                                                status: "active"),
+                                          );
                                     }
                                   },
                                   style: ElevatedButton.styleFrom(

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:localreview/view/feed_screen_view.dart';
-import 'package:localreview/view/home_screen_view.dart';
-import 'package:localreview/view/profile_view.dart';
+import 'package:localreview/features/home/presentation/view/feed_screen_view.dart';
+import 'package:localreview/features/home/presentation/view/home_screen_view.dart';
+import 'package:localreview/features/home/presentation/view/profile_view.dart';
+
 
 class BottomNavationView extends StatefulWidget {
   const BottomNavationView({super.key});
