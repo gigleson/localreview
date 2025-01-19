@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:localreview/view/login_screen_view.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:localreview/features/auth/presentation/view/login/login_screen_view.dart';
+import 'package:localreview/features/onbording/presentation/view_model/onbordign_cubit.dart';
+
 
 class OnboardingScreenView extends StatefulWidget {
   const OnboardingScreenView({super.key});
@@ -130,11 +133,7 @@ class _OnboardingScreenViewState extends State<OnboardingScreenView> {
               onPressed: () {
                 if (_currentIndex == _onboardingData.length - 1) {
                   // Navigate to the next screen (e.g., Login Page)
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const LoginScreenView()),
-                  );
+                context.read<OnboardingCubit>().navigateToLogin(context);
                 } else {
                   _pageController.nextPage(
                     duration: const Duration(milliseconds: 300),
