@@ -1,9 +1,6 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:localreview/features/splash/presentation/view_model/splash_cubit.dart';
-
 
 class SplashScreenView extends StatefulWidget {
   const SplashScreenView({super.key});

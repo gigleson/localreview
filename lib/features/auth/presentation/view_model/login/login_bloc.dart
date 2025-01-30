@@ -87,15 +87,5 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       },
     );
   }
-  void navigateToSignUp(BuildContext context) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => BlocProvider.value(
-          value: _registerBloc,
-          child: const SignupScreenView(),
-        ),
-      ),
-    );
-  }
+
 }

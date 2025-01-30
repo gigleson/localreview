@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:localreview/core/themes/mythemes.dart';
-import 'package:localreview/features/auth/presentation/view/login/login_screen_view.dart';
 import 'package:localreview/features/auth/presentation/view_model/signup/register_bloc.dart';
 
 class SignupScreenView extends StatefulWidget {
@@ -268,12 +267,21 @@ class _SignupScreenViewState extends State<SignupScreenView> {
                                 // Back to Login Button
                                 TextButton(
                                   onPressed: () {
-                                    Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              const LoginScreenView()),
-                                    );
+                                    Navigator.pop(context);
+                                    //   context,
+                                    //   MaterialPageRoute(
+                                    //     builder: (context) => MultiBlocProvider(
+                                    //       providers: [
+                                    //         BlocProvider.value(
+                                    //             value: getIt<LoginBloc>()),
+                                    //         BlocProvider.value(
+                                    //             value: getIt<
+                                    //                 HomeCubit>()), // Pass the relevant blocs
+                                    //       ],
+                                    //       child: const LoginScreenView(),
+                                    //     ),
+                                    //   ),
+                                    // );
                                   },
                                   child: Text(
                                     'Back to Login',
