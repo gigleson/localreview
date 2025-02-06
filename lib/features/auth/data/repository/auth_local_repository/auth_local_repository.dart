@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:dartz/dartz.dart';
 import 'package:localreview/core/error/failure.dart';
-import 'package:localreview/features/auth/data/data_source/local_datasource/batch_local_data_source.dart';
+import 'package:localreview/features/auth/data/data_source/local_datasource/auth_local_data_source.dart';
 import 'package:localreview/features/auth/domain/entity/auth_entity.dart';
 import 'package:localreview/features/auth/domain/repository/auth_repository.dart';
 
