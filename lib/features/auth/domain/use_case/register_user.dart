@@ -5,9 +5,8 @@ import 'package:localreview/core/error/failure.dart';
 import 'package:localreview/features/auth/domain/entity/auth_entity.dart';
 import 'package:localreview/features/auth/domain/repository/auth_repository.dart';
 
-
 class RegisterUserParams extends Equatable {
-   final String email;
+  final String email;
   final String userName;
   final String password;
   final String status;
@@ -15,12 +14,13 @@ class RegisterUserParams extends Equatable {
   final String createdAt;
 
   const RegisterUserParams({
-  required this.email,
+    required this.email,
     required this.userName,
     required this.password,
     required this.createdAt,
     required this.lastLogin,
-    required this.status,  });
+    required this.status,
+  });
 
   //intial constructor
   const RegisterUserParams.initial({
@@ -31,6 +31,13 @@ class RegisterUserParams extends Equatable {
     required this.lastLogin,
     required this.status,
   });
+  const RegisterUserParams.empty()
+      : email = "_empty.string",
+        password = "_empty.string",
+        userName = "_empty.userName",
+        lastLogin = "_empty.lastLogin",
+        status = "_empty.status",
+        createdAt = "_empty.createdAt";
 
   @override
   List<Object?> get props =>
