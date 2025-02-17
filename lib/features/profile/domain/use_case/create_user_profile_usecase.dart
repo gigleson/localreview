@@ -19,6 +19,9 @@ class CreateUserProfileParams extends Equatable {
     required this.bio,
     required this.image,
   });
+  const CreateUserProfileParams.empty()
+      : bio = "_empty.bio",
+        image = "_empty.image";
 
   @override
   List<Object?> get props => [bio, image];
