@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:dartz/dartz.dart';
 import 'package:localreview/core/error/failure.dart';
+import 'package:localreview/features/auth/domain/entity/auth_entity.dart';
 
 import 'package:localreview/features/profile/data/data_source/remote_datasource/user_remote_profile_data_source.dart';
 import 'package:localreview/features/profile/domain/entity/user_profile_entity.dart';
@@ -37,6 +38,24 @@ class UserRemoteProfileRepository implements IUserProfileRepository {
     } catch (e) {
       return Left(ApiFailure(message: e.toString()));
     }
+  }
+
+  @override
+  Future<Either<Failure, void>> deleteProfilePicture() {
+    // TODO: implement deleteProfilePicture
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<Either<Failure, String>> updateProfilePicture(File file) {
+    // TODO: implement updateProfilePicture
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<Either<Failure, void>> updateUser(UserProfileEntity entity) {
+    // TODO: implement updateUser
+    throw UnimplementedError();
   }
   
 }
