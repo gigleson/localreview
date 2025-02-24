@@ -38,3 +38,13 @@ class LoginStudentEvent extends LoginEvent {
     required this.password,
   });
 }
+
+class NavigateUserProfileScreenEvent extends LoginEvent {
+  final BuildContext context;
+  final Widget destination;
+
+  const NavigateUserProfileScreenEvent({
+    required this.context,
+    required this.destination,
+  });
+}

@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:localreview/features/onbording/presentation/view/onbording_screen_view.dart';
 import 'package:localreview/features/onbording/presentation/view_model/onbordign_cubit.dart';
 
-
 class SplashCubit extends Cubit<void> {
   SplashCubit(this._onboardingCubit) : super(null);
 
@@ -19,7 +18,7 @@ class SplashCubit extends Cubit<void> {
           MaterialPageRoute(
             builder: (context) => BlocProvider.value(
               value: _onboardingCubit,
-              child: OnboardingScreenView(),
+              child: const OnboardingScreenView(),
             ),
           ),
         );

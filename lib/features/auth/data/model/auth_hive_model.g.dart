@@ -6,7 +6,7 @@ part of 'auth_hive_model.dart';
 // TypeAdapterGenerator
 // **************************************************************************
 
-class AuthHiveModleAdapter extends TypeAdapter<AuthHiveModel> {
+class AuthHiveModelAdapter extends TypeAdapter<AuthHiveModel> {
   @override
   final int typeId = 0;
 
@@ -53,7 +53,7 @@ class AuthHiveModleAdapter extends TypeAdapter<AuthHiveModel> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is AuthHiveModleAdapter &&
+      other is AuthHiveModelAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

@@ -3,10 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:localreview/core/common/snackbar/my_snackbar.dart';
 import 'package:localreview/features/auth/domain/use_case/login_usecase.dart';
-import 'package:localreview/features/auth/presentation/view/signup/signup_screen_view.dart';
 import 'package:localreview/features/auth/presentation/view_model/signup/register_bloc.dart';
 import 'package:localreview/features/home/presentation/view/navbar_view.dart';
 import 'package:localreview/features/home/presentation/view_model/home_cubit.dart';
+import 'package:localreview/features/profile/presentation/view/user_profile_view.dart';
+import 'package:localreview/features/profile/presentation/view_model/user_profile/user_profile_bloc.dart';
 
 part 'login_event.dart';
 part 'login_state.dart';
@@ -14,15 +15,18 @@ part 'login_state.dart';
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   final RegisterBloc _registerBloc;
   final HomeCubit _homeCubit;
+  final UserProfileBloc _userProfileBloc;
   final LoginUseCase _loginUseCase;
 
   LoginBloc({
     required RegisterBloc registerBloc,
     required HomeCubit homeCubit,
     required LoginUseCase loginUseCase,
+    required UserProfileBloc userProfileBloc,
   })  : _registerBloc = registerBloc,
         _homeCubit = homeCubit,
         _loginUseCase = loginUseCase,
+        _userProfileBloc = userProfileBloc,
         super(LoginState.initial()) {
     on<NavigateRegisterScreenEvent>(
       (event, emit) {
@@ -75,27 +79,36 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
           },
           (token) {
             emit(state.copyWith(isLoading: false, isSuccess: true));
+            // add(
+            //   NavigateHomeScreenEvent(
+            //     context: event.context,
+            //     destination: const BottomNavationView(),
+            //   ),
+            // );
             add(
-              NavigateHomeScreenEvent(
+              NavigateUserProfileScreenEvent(
                 context: event.context,
-                destination: const BottomNavationView(),
+                destination: const ProfileScreen(), // Your user profile screen
               ),
             );
+
             //_homeCubit.setToken(token);
           },
         );
       },
     );
-  }
-  void navigateToSignUp(BuildContext context) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => BlocProvider.value(
-          value: _registerBloc,
-          child: const SignupScreenView(),
-        ),
-      ),
+    on<NavigateUserProfileScreenEvent>(
+      (event, emit) {
+        Navigator.pushReplacement(
+          event.context,
+          MaterialPageRoute(
+            builder: (context) => BlocProvider.value(
+              value: _userProfileBloc, // Ensure _userProfileBloc is registered
+              child: event.destination,
+            ),
+          ),
+        );
+      },
     );
   }
 }

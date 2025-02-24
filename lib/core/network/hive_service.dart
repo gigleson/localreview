@@ -13,7 +13,7 @@ class HiveService {
 
     // Register Adapters
 
-    Hive.registerAdapter(AuthHiveModleAdapter());
+    Hive.registerAdapter(AuthHiveModelAdapter());
   }
 
 /*
