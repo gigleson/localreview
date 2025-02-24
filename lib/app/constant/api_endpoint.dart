@@ -11,6 +11,8 @@ class ApiEndpoints {
   static const String login = "/api/auth/login";
   static const String register = "/api/auth/register";
   static const String resetPassword = "/api/auth/reset-password";
+  static const String getUserById = "auth/getUserById/";
+  static const String getAllUsers = "auth/getAllUsers/";
   // ============= Profile Routes =============
    static const String createUserProfile = "/api/profile/create-profile";
    static const String uploadImage = "api/profile/uploadImage";

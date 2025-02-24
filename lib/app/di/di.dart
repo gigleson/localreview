@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
+import 'package:localreview/app/shared_prefs/token_shared_prefs.dart';
 import 'package:localreview/core/network/api_service.dart';
 import 'package:localreview/core/network/hive_service.dart';
 import 'package:localreview/features/auth/data/data_source/local_datasource/auth_local_data_source.dart';
@@ -18,6 +19,7 @@ import 'package:localreview/features/profile/domain/use_case/create_user_profile
 import 'package:localreview/features/profile/domain/use_case/upload_image_usecase.dart';
 import 'package:localreview/features/profile/presentation/view_model/user_profile/user_profile_bloc.dart';
 import 'package:localreview/features/splash/presentation/view_model/splash_cubit.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 final getIt = GetIt.instance;
 
@@ -25,12 +27,18 @@ Future<void> initDependencies() async {
   // First initialize hive service
   await _initHiveService();
   await _initApiService();
+  await _initSharedPreferences();
   await _initHomeDependencies();
   await _initRegisterDependencies();
   await _initLoginDependencies();
   await _initOnbordingDependencies();
   await _initSplashScreenDependencies();
   await _initUserProfileDependencies();
+}
+
+Future<void> _initSharedPreferences() async {
+  final sharedPreferences = await SharedPreferences.getInstance();
+  getIt.registerLazySingleton<SharedPreferences>(() => sharedPreferences);
 }
 
 _initHiveService() {
@@ -76,10 +84,15 @@ _initHomeDependencies() async {
 }
 
 _initLoginDependencies() async {
+  getIt.registerLazySingleton<TokenSharedPrefs>(
+    () => TokenSharedPrefs(getIt<SharedPreferences>()),
+  );
+
   getIt.registerLazySingleton<LoginUseCase>(
     () => LoginUseCase(
       // getIt<AuthLocalRepository>(),
       getIt<AuthRemoteRepository>(),
+      getIt<TokenSharedPrefs>(),
     ),
   );
 
@@ -88,7 +101,7 @@ _initLoginDependencies() async {
       registerBloc: getIt<RegisterBloc>(),
       homeCubit: getIt<HomeCubit>(),
       userProfileBloc: getIt<UserProfileBloc>(),
-      // userProfileBloc: getIt<UserProfileBloc>(), 
+      // userProfileBloc: getIt<UserProfileBloc>(),
       loginUseCase: getIt<LoginUseCase>(),
     ),
   );

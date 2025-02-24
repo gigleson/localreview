@@ -43,4 +43,23 @@ class AuthRemoteRepository implements IAuthRepository {
       );
     }
   }
+   @override
+  Future<Either<Failure, AuthEntity>> getUserById(String userId) async {
+    try {
+      final authEntity = await _authRemoteDataSource.getUserById(userId);
+      return Right(authEntity);
+    } catch (e) {
+      return Left(ApiFailure(message: e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<AuthEntity>>> getAllUsers() async {
+    try {
+      final authEntities = await _authRemoteDataSource.getAllUsers();
+      return Right(authEntities);
+    } catch (e) {
+      return Left(ApiFailure(message: e.toString()));
+    }
+  }
 }
