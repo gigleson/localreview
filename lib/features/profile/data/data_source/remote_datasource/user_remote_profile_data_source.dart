@@ -15,7 +15,7 @@ class UserRemoteProfineDataSource implements IUserProfileDataSource {
   Future<void> createUserProfile(UserProfileEntity userinfo) async{
         try {
       Response response = await _dio.post(
-        ApiEndpoints.createUserProfile,
+        ApiEndpoints.baseUrl,
         data: {
           "bio": userinfo.bio,
           "image": userinfo.image,
@@ -48,7 +48,7 @@ class UserRemoteProfineDataSource implements IUserProfileDataSource {
       );
 
       Response response = await _dio.post(
-        ApiEndpoints.uploadImage,
+        ApiEndpoints.login,
         data: formData,
       );
 

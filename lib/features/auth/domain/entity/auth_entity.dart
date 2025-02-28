@@ -1,45 +1,80 @@
 import 'package:equatable/equatable.dart';
 
 class AuthEntity extends Equatable {
-  final String? userId;
+  final String? id;
+  final String username;
   final String email;
-  final String userName;
   final String password;
-  final String status;
-  final String lastLogin;
-  final String createdAt;
+  final String profilePicture;
+  final String bio;
+  final String? gender;
+  final List<String> followers;
+  final List<String> following;
+  final List<String> posts;
+  final List<String> bookmarks;
 
   const AuthEntity({
-    this.userId,
+    this.id,
+    required this.username,
     required this.email,
-    required this.userName,
     required this.password,
-    required this.createdAt,
-    required this.lastLogin,
-    required this.status,
+    required this.profilePicture,
+    required this.bio,
+    this.gender,
+    required this.followers,
+    required this.following,
+    required this.posts,
+    required this.bookmarks,
   });
+
+  /// Convert JSON to UserEntity
   factory AuthEntity.fromJson(Map<String, dynamic> json) {
     return AuthEntity(
-        userId: json['username'] as String,
-        email: json['email'] as String,
-        createdAt: json['email'] as String,
-        lastLogin: json['email'] as String,
-        status: json['email'] as String,
-        userName: json['email'] as String,
-
-        // userId: json['userId'] as String?,
-        password: json['password'] as String);
+      id: json['_id'] as String?,
+      username: json['username'] as String,
+      email: json['email'] as String,
+      password: json['password'] as String,
+      profilePicture: json['profilePicture'] ?? '',
+      bio: json['bio'] ?? '',
+      gender: json['gender'] as String?,
+      followers: (json['followers'] as List<dynamic>).map((e) => e.toString()).toList(),
+      following: (json['following'] as List<dynamic>).map((e) => e.toString()).toList(),
+      posts: (json['posts'] as List<dynamic>).map((e) => e.toString()).toList(),
+      bookmarks: (json['bookmarks'] as List<dynamic>).map((e) => e.toString()).toList(),
+    );
   }
 
+  /// Convert UserEntity to JSON
+  Map<String, dynamic> toJson() {
+    return {
+      '_id': id,
+      'username': username,
+      'email': email,
+      'password': password,
+      'profilePicture': profilePicture,
+      'bio': bio,
+      'gender': gender,
+      'followers': followers,
+      'following': following,
+      'posts': posts,
+      'bookmarks': bookmarks,
+    };
+  }
+
+  /// Empty UserEntity for default values
   const AuthEntity.empty()
-      : userId = "_empty.userId",
+      : id = "_empty.id",
+        username = "_empty.username",
         email = "_empty.email",
-        userName = "_empty.userName",
         password = "_empty.password",
-        createdAt = "_empty.createdAt",
-        lastLogin = "_empty.lastLogin",
-        status = "_empty.status";
+        profilePicture = "_empty.profilePicture",
+        bio = "_empty.bio",
+        gender = null,
+        followers = const [],
+        following = const [],
+        posts = const [],
+        bookmarks = const [];
 
   @override
-  List<Object?> get props => [userId];
+  List<Object?> get props => [id, username, email, profilePicture, bio, gender, followers, following, posts, bookmarks];
 }

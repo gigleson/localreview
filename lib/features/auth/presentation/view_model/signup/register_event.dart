@@ -1,5 +1,4 @@
 part of 'register_bloc.dart';
-
 sealed class RegisterEvent extends Equatable {
   const RegisterEvent();
 
@@ -7,24 +6,20 @@ sealed class RegisterEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class LoadCoursesAndBatches extends RegisterEvent {}
-
-class RegisterStudent extends RegisterEvent {
-  final BuildContext context;
-  final String email;
+/// **Event for User Registration**
+class RegisterUserEvent extends RegisterEvent{
   final String userName;
+  final String email;
   final String password;
-  final String status;
-  final String lastLogin;
-  final String createdAt;
+  final BuildContext context;
 
-  const RegisterStudent({
-    required this.context,
-    required this.email,
+  const RegisterUserEvent({
     required this.userName,
+    required this.email,
     required this.password,
-    required this.createdAt,
-    required this.lastLogin,
-    required this.status,
+    required this.context,
   });
+
+  @override
+  List<Object> get props => [userName, email, password, context];
 }

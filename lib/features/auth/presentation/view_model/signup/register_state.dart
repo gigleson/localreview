@@ -9,10 +9,13 @@ class RegisterState extends Equatable {
     required this.isSuccess,
   });
 
-  const RegisterState.initial()
-      : isLoading = false,
-        isSuccess = false;
+  /// **Initial State**
+  factory RegisterState.initial() => const RegisterState(
+        isLoading: false,
+        isSuccess: false,
+      );
 
+  /// **CopyWith for State Updates**
   RegisterState copyWith({
     bool? isLoading,
     bool? isSuccess,
@@ -24,5 +27,5 @@ class RegisterState extends Equatable {
   }
 
   @override
-  List<Object?> get props => [isLoading, isSuccess];
+  List<Object> get props => [isLoading, isSuccess];
 }

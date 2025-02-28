@@ -295,17 +295,13 @@ class _SignupScreenViewState extends State<SignupScreenView> {
                                   onPressed: () {
                                     if (_formKey.currentState!.validate()) {
                                       context.read<RegisterBloc>().add(
-                                            RegisterStudent(
-                                                context: context,
-                                                email: _emailController.text,
-                                                userName: _nameController.text,
-                                                password:
-                                                    _passwordController.text,
-                                                createdAt:
-                                                    DateTime.now().toString(),
-                                                lastLogin:
-                                                    DateTime.now().toString(),
-                                                status: "active"),
+                                            RegisterUserEvent(
+                                              context: context,
+                                              email: _emailController.text,
+                                              userName: _nameController.text,
+                                              password:
+                                                  _passwordController.text,
+                                            ),
                                           );
                                     }
                                   },

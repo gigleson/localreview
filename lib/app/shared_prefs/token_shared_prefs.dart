@@ -24,4 +24,13 @@ class TokenSharedPrefs {
       return Left(SharedPrefsFailure(message: e.toString()));
     }
   }
+    /// Remove token on logout
+  Future<Either<Failure, void>> removeToken() async {
+    try {
+      await _sharedPreferences.remove('token');
+      return const Right(null);
+    } catch (e) {
+      return Left(SharedPrefsFailure(message: e.toString()));
+    }
+  }
 }

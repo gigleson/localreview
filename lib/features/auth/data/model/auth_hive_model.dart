@@ -6,63 +6,114 @@ import 'package:uuid/uuid.dart';
 
 part "auth_hive_model.g.dart";
 
-@HiveType(typeId: HiveTableConstant.userTableId)
+@HiveType(typeId: HiveTableConstant.authTableId)
 class AuthHiveModel extends Equatable {
   @HiveField(0)
   final String? userId;
+
   @HiveField(1)
   final String email;
+
   @HiveField(2)
-  final String userName;
+  final String username;
+
   @HiveField(3)
   final String password;
+
   @HiveField(4)
-  final String status;
+  final String profilePicture;
+
   @HiveField(5)
-  final String lastLogin;
+  final String bio;
+
   @HiveField(6)
-  final String createdAt;
+  final String? gender;
+
+  @HiveField(7)
+  final List<String> followers;
+
+  @HiveField(8)
+  final List<String> following;
+
+  @HiveField(9)
+  final List<String> posts;
+
+  @HiveField(10)
+  final List<String> bookmarks;
 
   AuthHiveModel({
     String? userId,
     required this.email,
-    required this.userName,
+    required this.username,
     required this.password,
-    required this.createdAt,
-    required this.lastLogin,
-    required this.status,
+    required this.profilePicture,
+    required this.bio,
+    this.gender,
+    required this.followers,
+    required this.following,
+    required this.posts,
+    required this.bookmarks,
   }) : userId = userId ?? const Uuid().v4();
 
-  const AuthHiveModel.initail()
-        : userId = "",
-          email = "",
-          userName = "",
-          password = "",
-          status = "",
-          createdAt = "",
-          lastLogin = "";
+  /// **Empty Constructor for Defaults**
+  const AuthHiveModel.initial()
+      : userId = "",
+        email = "",
+        username = "",
+        password = "",
+        profilePicture = "",
+        bio = "",
+        gender = null,
+        followers = const [],
+        following = const [],
+        posts = const [],
+        bookmarks = const [];
 
+  /// **Convert from `AuthEntity` to `AuthHiveModel`**
   factory AuthHiveModel.fromEntity(AuthEntity authEntity) {
     return AuthHiveModel(
-        userId: authEntity.userId,
-        createdAt: authEntity.createdAt,
-        email: authEntity.email,
-        lastLogin: authEntity.lastLogin,
-        password: authEntity.password,
-        status: authEntity.status,
-        userName: authEntity.userName);
+      userId: authEntity.id,
+      email: authEntity.email,
+      username: authEntity.username,
+      password: authEntity.password,
+      profilePicture: authEntity.profilePicture,
+      bio: authEntity.bio,
+      gender: authEntity.gender,
+      followers: authEntity.followers,
+      following: authEntity.following,
+      posts: authEntity.posts,
+      bookmarks: authEntity.bookmarks,
+    );
   }
 
+  /// **Convert from `AuthHiveModel` to `AuthEntity`**
   AuthEntity toEntity() {
     return AuthEntity(
-        email: email,
-        userName: userName,
-        password: password,
-        createdAt: createdAt,
-        lastLogin: lastLogin,
-        status: status);
+      id: userId,
+      email: email,
+      username: username,
+      password: password,
+      profilePicture: profilePicture,
+      bio: bio,
+      gender: gender,
+      followers: followers,
+      following: following,
+      posts: posts,
+      bookmarks: bookmarks,
+    );
   }
 
   @override
-  List<Object?> get props => [userId];
+  List<Object?> get props => [
+        userId,
+        email,
+        username,
+        profilePicture,
+        bio,
+        gender,
+        followers,
+        following,
+        posts,
+        bookmarks,
+      ];
 }

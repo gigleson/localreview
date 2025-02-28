@@ -2,7 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:localreview/core/error/failure.dart';
 import 'package:localreview/features/auth/domain/entity/auth_entity.dart';
-import 'package:localreview/features/auth/domain/use_case/get_all_user_usecase.dart';
+import 'package:localreview/features/auth/domain/use_case/getSuggested_useCase.dart';
 import 'package:mocktail/mocktail.dart';
 
 import 'auth_repo.mock.dart';
