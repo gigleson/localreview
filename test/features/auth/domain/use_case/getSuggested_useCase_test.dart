@@ -34,25 +34,21 @@ void main() {
     );
 
     
-
-
-    test('should throw an exception when getCurrentUser fails', () async {
+    test('should throw an exception when getSuggestedUsers fails', () async {
       // Arrange
       when(() => mockDio.get(any())).thenAnswer(
         (_) async => Response(
           requestOptions: RequestOptions(path: ''),
           statusCode: 400,
-          data: {'message': 'Failed to fetch user'},
+          data: {'message': 'No suggested users found'},
         ),
       );
 
       // Act
-      final call = authRemoteDataSource.getCurrentUser();
+      final call = authRemoteDataSource.getSuggestedUsers();
 
       // Assert
       expect(() => call, throwsException);
     });
-
-
   });
 }

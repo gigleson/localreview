@@ -48,3 +48,12 @@ class NavigateUserProfileScreenEvent extends LoginEvent {
     required this.destination,
   });
 }
+class NavigateCreatePostScreen extends LoginEvent {
+  final BuildContext context;
+  final Widget destination;
+
+  const NavigateCreatePostScreen({
+    required this.context,
+    required this.destination,
+  });
+}

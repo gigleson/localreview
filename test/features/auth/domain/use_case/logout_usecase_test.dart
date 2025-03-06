@@ -34,25 +34,23 @@ void main() {
     );
 
     
-
-
-    test('should throw an exception when getCurrentUser fails', () async {
+    test('should logout user successfully', () async {
       // Arrange
       when(() => mockDio.get(any())).thenAnswer(
         (_) async => Response(
           requestOptions: RequestOptions(path: ''),
-          statusCode: 400,
-          data: {'message': 'Failed to fetch user'},
+          statusCode: 200,
         ),
       );
 
       // Act
-      final call = authRemoteDataSource.getCurrentUser();
+      await authRemoteDataSource.logoutUser();
 
       // Assert
-      expect(() => call, throwsException);
+      verify(() => mockDio.get(any())).called(1);
     });
 
 
+  
   });
 }

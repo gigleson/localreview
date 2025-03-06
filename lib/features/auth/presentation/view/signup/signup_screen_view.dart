@@ -82,6 +82,7 @@ class _SignupScreenViewState extends State<SignupScreenView> {
                                 Text(
                                   'Create Your Account',
                                   style: AppTheme.displaySmall,
+                                  
                                 ),
                               ],
                             ),
