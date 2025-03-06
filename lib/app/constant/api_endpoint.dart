@@ -28,7 +28,8 @@
   static const Duration receiveTimeout = Duration(seconds: 1000);
 
   // **For Android Emulator**
-  static const String baseUrl = "http://10.0.2.2:8000";
+  // static const String baseUrl = "http://10.0.2.2:8000";
+  static const String baseUrl ="http://192.168.1.72:8000";
 
   // ============= Auth Routes =============
   static const String login = "$baseUrl/api/v1/user/login";
@@ -41,4 +42,16 @@
   // **Fixed: Use functions to append User ID dynamically**
   static String getUserById(String userId) => "$baseUrl/api/v1/user/$userId/profile";
   static String followOrUnfollow(String userId) => "$baseUrl/api/v1/user/followorunfollow/$userId";
+
+    // ============= Post Routes =============
+  static const String addPost = "$baseUrl/api/v1/post/addpost";
+  static const String getAllPosts = "$baseUrl/api/v1/post/all";
+  static const String getUserPosts = "$baseUrl/api/v1/post/userpost/all";
+  static const String likePost = "$baseUrl/api/v1/post/:id/like";
+  static const String dislikePost = "$baseUrl/api/v1/post/:id/dislike";
+  static const String addComment = "$baseUrl/api/v1/post/:id/comment";
+  static const String getComments = "$baseUrl/api/v1/post/:id/comment/all";
+  static const String deletePost = "$baseUrl/api/v1/post/delete/:id";
+  static const String bookmarkPost = "$baseUrl/api/v1/post/:id/bookmark";
+
 }
