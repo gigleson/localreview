@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'feed_page.dart';
 import 'friends_page.dart';
-import 'chat_page.dart';
+import '../../../conversation/presentation/view/chat_page.dart';
 import 'profile_page.dart';
 
 class HomePage extends StatefulWidget {

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:localreview/features/home/presentation/view/message_page.dart';
+import 'package:localreview/features/conversation/presentation/view/message_page.dart';
 
 class ChatPage extends StatelessWidget {
   const ChatPage({super.key});
