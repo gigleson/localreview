@@ -5,24 +5,25 @@ import 'package:localreview/app/usecase/usecase.dart';
 import 'package:localreview/core/error/failure.dart';
 import 'package:localreview/features/auth/domain/repository/auth_repository.dart';
 
+/// **Login Params**
 class LoginParams extends Equatable {
-  final String username;
+  final String email;
   final String password;
 
   const LoginParams({
-    required this.username,
+    required this.email,
     required this.password,
   });
 
-  // Initial Constructor
   const LoginParams.initial()
-      : username = '',
+      : email = '',
         password = '';
 
   @override
-  List<Object> get props => [username, password];
+  List<Object> get props => [email, password];
 }
 
+/// **Login Use Case**
 class LoginUseCase implements UsecaseWithParams<String, LoginParams> {
   final IAuthRepository repository;
   final TokenSharedPrefs tokenSharedPrefs;
@@ -31,15 +32,11 @@ class LoginUseCase implements UsecaseWithParams<String, LoginParams> {
 
   @override
   Future<Either<Failure, String>> call(LoginParams params) {
-    // IF api then store token in shared preferences
-    return repository.loginUser(params.username, params.password).then((value) {
+    return repository.loginUser(params.email, params.password).then((value) {
       return value.fold(
         (failure) => Left(failure),
         (token) {
           tokenSharedPrefs.saveToken(token);
-          // tokenSharedPrefs.getToken().then((value) {
-          //   print(value);
-          // });
           return Right(token);
         },
       );

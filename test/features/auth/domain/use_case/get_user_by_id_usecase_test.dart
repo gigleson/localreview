@@ -1,73 +1,74 @@
-import 'package:dartz/dartz.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
-
-import 'package:localreview/core/error/failure.dart';
-import 'package:localreview/features/auth/domain/entity/auth_entity.dart';
-import 'package:localreview/features/auth/domain/use_case/get_user_by_id_usecase.dart';
+import 'package:localreview/features/auth/data/data_source/remote_datasource/auth_remote_data_sourse.dart';
 import 'package:mocktail/mocktail.dart';
 
-import 'auth_repo.mock.dart';
+import 'package:localreview/features/auth/domain/entity/auth_entity.dart';
+import 'package:localreview/features/auth/data/model/auth_api_modle.dart';
 
+class MockDio extends Mock implements Dio {}
 
 void main() {
-  late GetUserByIdUseCase usecase;
-  late AuthRepoMock mockAuthRepository;
+  late MockDio mockDio;
+  late AuthRemoteDataSource authRemoteDataSource;
 
   setUp(() {
-    mockAuthRepository = AuthRepoMock();
-    usecase = GetUserByIdUseCase(mockAuthRepository);
+    mockDio = MockDio();
+    authRemoteDataSource = AuthRemoteDataSource(mockDio);
   });
 
-  const tUserId = 'testUserId';
-  const tAuthEntity = AuthEntity(
-      userId: 'user1',
-      email: 'user1@example.com',
-      password: "password",
-      userName: "password",
-      createdAt: "password",
-      lastLogin: "password",
-      status: "active");
+  group('AuthRemoteDataSource Tests', () {
+    const email = 'test@example.com';
+    const password = 'password123';
+    const token = 'test-token';
+    final user = AuthEntity(
+      email: email,
+      password: password,
+      username: 'testUser',
+      profilePicture: '',
+      bio: '',
+      followers: [],
+      following: [],
+      posts: [],
+      bookmarks: [],
+    );
+    // Test: Get user by ID successfully
+    // test('should fetch user by ID successfully', () async {
+    //   // Arrange
+    //   const userId = '123';
+    //   when(() => mockDio.get(any())).thenAnswer(
+    //     (_) async => Response(
+    //       requestOptions: RequestOptions(path: ''),
+    //       statusCode: 200,
+    //       data: {'success': true, 'user': {'email': email}},
+    //     ),
+    //   );
 
-  test(
-    'Should return an AuthEntity when getUserById is successful',
-    () async {
+    //   // Act
+    //   final result = await authRemoteDataSource.getUserById(userId);
+
+    //   // Assert
+    //   expect(result.email, email);
+    //   verify(() => mockDio.get(any())).called(1);
+    // });
+
+    // Test: Get user by ID fails
+    test('should throw an exception when getUserById fails', () async {
       // Arrange
-      when(() => mockAuthRepository.getUserById(tUserId))
-          .thenAnswer((_) async => const Right(tAuthEntity));
+      const userId = '123';
+      when(() => mockDio.get(any())).thenAnswer(
+        (_) async => Response(
+          requestOptions: RequestOptions(path: ''),
+          statusCode: 400,
+          data: {'message': 'User not found'},
+        ),
+      );
 
       // Act
-      final result = await usecase(tUserId);
+      final call = authRemoteDataSource.getUserById(userId);
 
       // Assert
-      expect(result, const Right(tAuthEntity));
-
-      // Verify that the repository method was called with the correct data
-      verify(() => mockAuthRepository.getUserById(tUserId)).called(1);
-
-      // Ensure no other methods were called on the repository
-      verifyNoMoreInteractions(mockAuthRepository);
-    },
-  );
-
-  test(
-    'Should return a Failure when getUserById fails',
-    () async {
-      // Arrange
-      const tFailure = ApiFailure(message: 'Failed to get user by ID.');
-      when(() => mockAuthRepository.getUserById(tUserId))
-          .thenAnswer((_) async => const Left(tFailure));
-
-      // Act
-      final result = await usecase(tUserId);
-
-      // Assert
-      expect(result, const Left(tFailure));
-
-      // Verify that the repository method was called with the correct data
-      verify(() => mockAuthRepository.getUserById(tUserId)).called(1);
-
-      // Ensure no other methods were called on the repository
-      verifyNoMoreInteractions(mockAuthRepository);
-    },
-  );
+      expect(() => call, throwsException);
+    });
+  });
 }

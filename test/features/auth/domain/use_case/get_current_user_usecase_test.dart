@@ -1,73 +1,58 @@
-import 'package:dartz/dartz.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
-
-import 'package:localreview/core/error/failure.dart';
-import 'package:localreview/features/auth/domain/entity/auth_entity.dart';
-import 'package:localreview/features/auth/domain/use_case/get_current_user_usecase.dart';
+import 'package:localreview/features/auth/data/data_source/remote_datasource/auth_remote_data_sourse.dart';
 import 'package:mocktail/mocktail.dart';
 
-import 'auth_repo.mock.dart';
+import 'package:localreview/features/auth/domain/entity/auth_entity.dart';
+import 'package:localreview/features/auth/data/model/auth_api_modle.dart';
 
-
+class MockDio extends Mock implements Dio {}
 
 void main() {
-  late GetCurrentUserUseCase usecase;
-  late AuthRepoMock mockAuthRepository;
+  late MockDio mockDio;
+  late AuthRemoteDataSource authRemoteDataSource;
 
   setUp(() {
-    mockAuthRepository = AuthRepoMock();
-    usecase = GetCurrentUserUseCase(mockAuthRepository);
+    mockDio = MockDio();
+    authRemoteDataSource = AuthRemoteDataSource(mockDio);
   });
 
-  const tAuthEntity = AuthEntity(
-      userId: 'user1',
-      email: 'user1@example.com',
-      password: "password",
-      userName: "password",
-      createdAt: "password",
-      lastLogin: "password",
-      status: "active");
+  group('AuthRemoteDataSource Tests', () {
+    const email = 'test@example.com';
+    const password = 'password123';
+    const token = 'test-token';
+    final user = AuthEntity(
+      email: email,
+      password: password,
+      username: 'testUser',
+      profilePicture: '',
+      bio: '',
+      followers: [],
+      following: [],
+      posts: [],
+      bookmarks: [],
+    );
 
-  test(
-    'Should return an AuthEntity when getCurrentUser is successful',
-    () async {
-      // Arrange: Setup the mock to return a Right(tAuthEntity)
-      when(() => mockAuthRepository.getCurrentUser())
-          .thenAnswer((_) async => const Right(tAuthEntity));
+    
 
-      // Act: Call the use case
-      final result = await usecase();
 
-      // Assert: Check if the result is Right(tAuthEntity)
-      expect(result, const Right(tAuthEntity));
+    test('should throw an exception when getCurrentUser fails', () async {
+      // Arrange
+      when(() => mockDio.get(any())).thenAnswer(
+        (_) async => Response(
+          requestOptions: RequestOptions(path: ''),
+          statusCode: 400,
+          data: {'message': 'Failed to fetch user'},
+        ),
+      );
 
-      // Verify that the repository method was called
-      verify(() => mockAuthRepository.getCurrentUser()).called(1);
+      // Act
+      final call = authRemoteDataSource.getCurrentUser();
 
-      // Ensure no other interactions occurred with the repository
-      verifyNoMoreInteractions(mockAuthRepository);
-    },
-  );
+      // Assert
+      expect(() => call, throwsException);
+    });
 
-  test(
-    'Should return a Failure when getCurrentUser fails',
-    () async {
-      // Arrange: Setup the mock to return a Left(ServerFailure)
-      var tFailure = const ApiFailure(message: 'Failed to get current user.');
-      when(() => mockAuthRepository.getCurrentUser())
-          .thenAnswer((_) async => Left(tFailure));
 
-      // Act: Call the use case
-      final result = await usecase();
-
-      // Assert: Check if the result is Left(ServerFailure)
-      expect(result, Left(tFailure));
-
-      // Verify that the repository method was called
-      verify(() => mockAuthRepository.getCurrentUser()).called(1);
-
-      // Ensure no other interactions occurred with the repository
-      verifyNoMoreInteractions(mockAuthRepository);
-    },
-  );
+  });
 }

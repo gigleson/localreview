@@ -2,56 +2,61 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:localreview/core/common/snackbar/my_snackbar.dart';
+import 'package:localreview/features/auth/domain/entity/auth_entity.dart';
 import 'package:localreview/features/auth/domain/use_case/register_user.dart';
-import 'package:localreview/features/auth/presentation/view_model/login/login_bloc.dart';
 
 part 'register_event.dart';
 part 'register_state.dart';
 
-class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
+class RegisterBloc extends Bloc<RegisterUserEvent, RegisterState> {
   final RegisterUseCase _registerUseCase;
-  // final LoginBloc _loginBloc;
+
   RegisterBloc({
     required RegisterUseCase registerUseCase,
   })  : _registerUseCase = registerUseCase,
         super(RegisterState.initial()) {
-    on<RegisterStudent>(_onRegisterEvent);
-
-    // on<NavigateHomeScreenEvent>(
-    //   (event, emit) {
-    //     Navigator.pushReplacement(
-    //       event.context,
-    //       MaterialPageRoute(
-    //         builder: (context) => BlocProvider.value(
-    //           value: _homeCubit,
-    //           child: event.destination,
-    //         ),
-    //       ),
-    //     );
-    //   },
-    // );
+    on<RegisterUserEvent>(_onRegisterEvent);
   }
 
+  /// **Handle Registration Event**
   void _onRegisterEvent(
-    RegisterStudent event,
+    RegisterUserEvent event,
     Emitter<RegisterState> emit,
   ) async {
     emit(state.copyWith(isLoading: true));
-    final result = await _registerUseCase.call(RegisterUserParams(
-      userName: event.userName,
-      email: event.email,
-      password: event.password,
-      createdAt: event.createdAt,
-      lastLogin: event.lastLogin,
-      status: event.status,
-    ));
+
+    final result = await _registerUseCase.call(
+      RegisterParams(
+        user: AuthEntity(
+          id: null, // ID will be generated on the backend
+          username: event.userName,
+          email: event.email,
+          password: event.password,
+          profilePicture: "",
+          bio: "",
+          gender: null,
+          followers: const [],
+          following: const [],
+          posts: const [],
+          bookmarks: const [],
+        ),
+      ),
+    );
 
     result.fold(
-      (l) => emit(state.copyWith(isLoading: false, isSuccess: false)),
-      (r) {
+      (failure) {
+        emit(state.copyWith(isLoading: false, isSuccess: false));
+        showMySnackBar(
+          context: event.context,
+          message: "Registration Failed: ${failure.message}",
+        );
+      },
+      (_) {
         emit(state.copyWith(isLoading: false, isSuccess: true));
         showMySnackBar(
-            context: event.context, message: "Registration Successful");
+          context: event.context,
+          message: "Registration Successful",
+        );
       },
     );
   }

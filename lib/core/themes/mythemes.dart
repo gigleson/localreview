@@ -10,7 +10,7 @@ class AppTheme {
 
   static TextStyle displaySmall = const TextStyle(
     fontFamily: 'Readex Pro',
-    fontSize: 36,
+    fontSize: 26,
     fontWeight: FontWeight.bold,
     letterSpacing: 0.0,
   );

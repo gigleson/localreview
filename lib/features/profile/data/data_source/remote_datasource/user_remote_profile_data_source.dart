@@ -2,12 +2,15 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:localreview/app/constant/api_endpoint.dart';
+import 'package:localreview/app/shared_prefs/token_shared_prefs.dart';
 import 'package:localreview/features/profile/data/data_source/user_profile_data_source.dart';
 import 'package:localreview/features/profile/domain/entity/user_profile_entity.dart';
 
 
 class UserRemoteProfineDataSource implements IUserProfileDataSource {
   final Dio _dio;
+  
+  
 
   UserRemoteProfineDataSource(this._dio);
 
@@ -15,11 +18,12 @@ class UserRemoteProfineDataSource implements IUserProfileDataSource {
   Future<void> createUserProfile(UserProfileEntity userinfo) async{
         try {
       Response response = await _dio.post(
-        ApiEndpoints.createUserProfile,
+        ApiEndpoints.baseUrl,
         data: {
           "bio": userinfo.bio,
           "image": userinfo.image,
         },
+       
       );
 
       if (response.statusCode == 200) {
@@ -48,7 +52,7 @@ class UserRemoteProfineDataSource implements IUserProfileDataSource {
       );
 
       Response response = await _dio.post(
-        ApiEndpoints.uploadImage,
+        ApiEndpoints.login,
         data: formData,
       );
 

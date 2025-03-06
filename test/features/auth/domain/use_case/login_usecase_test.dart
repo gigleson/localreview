@@ -38,7 +38,7 @@ void main() {
     );
 
     final result = await usecase(const LoginParams(
-      username: 'kaushal',
+      email: 'kaushal',
       password: '123456aa',
     ));
 

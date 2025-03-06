@@ -13,6 +13,18 @@ import 'package:localreview/features/auth/presentation/view_model/login/login_bl
 import 'package:localreview/features/auth/presentation/view_model/signup/register_bloc.dart';
 import 'package:localreview/features/home/presentation/view_model/home_cubit.dart';
 import 'package:localreview/features/onbording/presentation/view_model/onbordign_cubit.dart';
+import 'package:localreview/features/post/data/data_source/remote_data_source/post_remote_data_source.dart';
+import 'package:localreview/features/post/data/repository/post_remote_repository.dart';
+import 'package:localreview/features/post/domain/use_case/AddCommentUseCase.dart';
+import 'package:localreview/features/post/domain/use_case/AddPostUseCase.dart';
+import 'package:localreview/features/post/domain/use_case/BookmarkPostUseCase.dart';
+import 'package:localreview/features/post/domain/use_case/DeletePostUseCase.dart';
+import 'package:localreview/features/post/domain/use_case/DislikePostUseCase.dart';
+import 'package:localreview/features/post/domain/use_case/GetAllPostsUseCase.dart';
+import 'package:localreview/features/post/domain/use_case/GetCommentsUseCase.dart';
+import 'package:localreview/features/post/domain/use_case/GetUserPostsUseCase.dart';
+import 'package:localreview/features/post/domain/use_case/LikePostUseCase.dart';
+import 'package:localreview/features/post/presentation/view_model/bloc/post_bloc.dart';
 import 'package:localreview/features/profile/data/data_source/remote_datasource/user_remote_profile_data_source.dart';
 import 'package:localreview/features/profile/data/repository/user_remote_pofile_repository.dart';
 import 'package:localreview/features/profile/domain/use_case/create_user_profile_usecase.dart';
@@ -34,6 +46,7 @@ Future<void> initDependencies() async {
   await _initOnbordingDependencies();
   await _initSplashScreenDependencies();
   await _initUserProfileDependencies();
+  await _initPostDependencies(); 
 }
 
 Future<void> _initSharedPreferences() async {
@@ -100,6 +113,7 @@ _initLoginDependencies() async {
     () => LoginBloc(
       registerBloc: getIt<RegisterBloc>(),
       homeCubit: getIt<HomeCubit>(),
+      postBloc: getIt<PostBloc>(),
       userProfileBloc: getIt<UserProfileBloc>(),
       // userProfileBloc: getIt<UserProfileBloc>(),
       loginUseCase: getIt<LoginUseCase>(),
@@ -154,3 +168,77 @@ _initUserProfileDependencies() async {
     ),
   );
 }
+_initPostDependencies() {
+  // **Remote Data Source**
+  getIt.registerLazySingleton<PostRemoteDataSource>(
+    () => PostRemoteDataSource(dio:getIt<Dio>(),userSharedPrefs: getIt<TokenSharedPrefs>()),
+  );
+
+  // **Local Data Source (Hive)**
+  // getIt.registerLazySingleton<PostLocalDataSource>(
+  //   () => PostLocalDataSource(getIt<HiveService>()),
+  // );
+
+  // **Remote Repository**
+  getIt.registerLazySingleton<PostRemoteRepository>(
+    () => PostRemoteRepository(getIt<PostRemoteDataSource>()),
+  );
+
+  // **Local Repository**
+  // getIt.registerLazySingleton<PostLocalRepository>(
+  //   () => PostLocalRepository(getIt<PostLocalDataSource>()),
+  // );
+
+  // **Use Cases**
+  getIt.registerLazySingleton<AddPostUseCase>(
+    () => AddPostUseCase(getIt<PostRemoteRepository>()),
+  );
+
+  getIt.registerLazySingleton<GetAllPostsUseCase>(
+    () => GetAllPostsUseCase(getIt<PostRemoteRepository>()),
+  );
+
+  getIt.registerLazySingleton<GetUserPostsUseCase>(
+    () => GetUserPostsUseCase(getIt<PostRemoteRepository>()),
+  );
+
+  getIt.registerLazySingleton<LikePostUseCase>(
+    () => LikePostUseCase(getIt<PostRemoteRepository>()),
+  );
+
+  getIt.registerLazySingleton<DislikePostUseCase>(
+    () => DislikePostUseCase(getIt<PostRemoteRepository>()),
+  );
+
+  getIt.registerLazySingleton<AddCommentUseCase>(
+    () => AddCommentUseCase(getIt<PostRemoteRepository>()),
+  );
+
+  getIt.registerLazySingleton<GetCommentsUseCase>(
+    () => GetCommentsUseCase(getIt<PostRemoteRepository>()),
+  );
+
+  getIt.registerLazySingleton<DeletePostUseCase>(
+    () => DeletePostUseCase(getIt<PostRemoteRepository>()),
+  );
+
+  getIt.registerLazySingleton<BookmarkPostUseCase>(
+    () => BookmarkPostUseCase(getIt<PostRemoteRepository>()),
+  );
+
+
+  getIt.registerFactory<PostBloc>(
+    () => PostBloc(
+      addPostUseCase: getIt<AddPostUseCase>(),
+      getAllPostsUseCase: getIt<GetAllPostsUseCase>(),
+      getUserPostsUseCase: getIt<GetUserPostsUseCase>(),
+      likePostUseCase: getIt<LikePostUseCase>(),
+      dislikePostUseCase: getIt<DislikePostUseCase>(),
+      addCommentUseCase: getIt<AddCommentUseCase>(),
+      getCommentsUseCase: getIt<GetCommentsUseCase>(),
+      deletePostUseCase: getIt<DeletePostUseCase>(),
+      bookmarkPostUseCase: getIt<BookmarkPostUseCase>(),
+    ),
+  );
+}
+

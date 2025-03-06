@@ -4,8 +4,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:localreview/core/common/snackbar/my_snackbar.dart';
 import 'package:localreview/features/auth/domain/use_case/login_usecase.dart';
 import 'package:localreview/features/auth/presentation/view_model/signup/register_bloc.dart';
-import 'package:localreview/features/home/presentation/view/navbar_view.dart';
+import 'package:localreview/features/home/presentation/view/home_page.dart';
+// import 'package:localreview/features/home/presentation/view/navbar_view.dart';
 import 'package:localreview/features/home/presentation/view_model/home_cubit.dart';
+import 'package:localreview/features/post/presentation/view/CreatePostScreen.dart';
+import 'package:localreview/features/post/presentation/view_model/bloc/post_bloc.dart';
 import 'package:localreview/features/profile/presentation/view/user_profile_view.dart';
 import 'package:localreview/features/profile/presentation/view_model/user_profile/user_profile_bloc.dart';
 
@@ -16,17 +19,21 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   final RegisterBloc _registerBloc;
   final HomeCubit _homeCubit;
   final UserProfileBloc _userProfileBloc;
+  final PostBloc _postBloc;
   final LoginUseCase _loginUseCase;
+  
 
   LoginBloc({
     required RegisterBloc registerBloc,
     required HomeCubit homeCubit,
     required LoginUseCase loginUseCase,
     required UserProfileBloc userProfileBloc,
+    required PostBloc postBloc,
   })  : _registerBloc = registerBloc,
         _homeCubit = homeCubit,
         _loginUseCase = loginUseCase,
         _userProfileBloc = userProfileBloc,
+        _postBloc = postBloc,
         super(LoginState.initial()) {
     on<NavigateRegisterScreenEvent>(
       (event, emit) {
@@ -63,7 +70,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         emit(state.copyWith(isLoading: true));
         final result = await _loginUseCase(
           LoginParams(
-            username: event.username,
+            email: event.username,
             password: event.password,
           ),
         );
@@ -78,32 +85,55 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
             );
           },
           (token) {
+            print(
+                "hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh");
+            print(token);
             emit(state.copyWith(isLoading: false, isSuccess: true));
-            // add(
-            //   NavigateHomeScreenEvent(
-            //     context: event.context,
-            //     destination: const BottomNavationView(),
-            //   ),
-            // );
             add(
-              NavigateUserProfileScreenEvent(
+              NavigateHomeScreenEvent(
                 context: event.context,
-                destination: const ProfileScreen(), // Your user profile screen
+                destination:  HomePage(),
               ),
             );
+
+            // add(
+            //   NavigateUserProfileScreenEvent(
+            //     context: event.context,
+            //     destination: const ProfileScreen(), // Your user profile screen
+            //   ),
+            // );
+            // add(
+            //   NavigateCreatePostScreen(
+            //     context: event.context,
+            //     destination: const CreatePostScreen(), // Your user profile screen
+            //   ),
+            // );
 
             //_homeCubit.setToken(token);
           },
         );
       },
     );
-    on<NavigateUserProfileScreenEvent>(
+    // on<NavigateUserProfileScreenEvent>(
+    //   (event, emit) {
+    //     Navigator.pushReplacement(
+    //       event.context,
+    //       MaterialPageRoute(
+    //         builder: (context) => BlocProvider.value(
+    //           value: _userProfileBloc, // Ensure _userProfileBloc is registered
+    //           child: event.destination,
+    //         ),
+    //       ),
+    //     );
+    //   },
+    // );
+    on<NavigateCreatePostScreen>(
       (event, emit) {
         Navigator.pushReplacement(
           event.context,
           MaterialPageRoute(
             builder: (context) => BlocProvider.value(
-              value: _userProfileBloc, // Ensure _userProfileBloc is registered
+              value: _postBloc, // Ensure _userProfileBloc is registered
               child: event.destination,
             ),
           ),
