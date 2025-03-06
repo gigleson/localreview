@@ -54,4 +54,16 @@
   static const String deletePost = "$baseUrl/api/v1/post/delete/:id";
   static const String bookmarkPost = "$baseUrl/api/v1/post/:id/bookmark";
 
+
+  //chat
+  static const String sendmesage = "$baseUrl/api/v1/message/send/:id";
+  static const String getAllPosts = "$baseUrl/api/char/post/all";
+  static const String getUserPosts = "$baseUrl/api/v1/post/userpost/all";
+  static const String likePost = "$baseUrl/api/v1/post/:id/like";
+  static const String dislikePost = "$baseUrl/api/v1/post/:id/dislike";
+  static const String addComment = "$baseUrl/api/v1/post/:id/comment";
+  static const String getComments = "$baseUrl/api/v1/post/:id/comment/all";
+  static const String deletePost = "$baseUrl/api/v1/post/delete/:id";
+  static const String bookmarkPost = "$baseUrl/api/v1/post/:id/bookmark";
+
 }
